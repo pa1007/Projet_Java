@@ -200,7 +200,7 @@ public class TestDresseur {
         Dresseur  df  = new Dresseur("t", 5, 5, env);
         assertEquals("Le dresseur devrai prendre le poquemont", true, d.prendrePoquemont(pq));
         assertEquals("Le dresseur ne devrai pas prendre le poquemont", false, df.prendrePoquemont(pq));
-        assertEquals("Le dresseur ne devrai pas avoir de poquemont", d, d.getPoquemontDresse());
+        assertEquals("Le dresseur ne devrai pas avoir de poquemont", null, df.getPoquemontDresse());
     }
 
 

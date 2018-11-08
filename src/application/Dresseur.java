@@ -201,7 +201,7 @@ public class Dresseur {
     public boolean prendrePoquemont(Poquemont poq) {
         if (!this.etreBlesse()) {
             if (poq != null) {
-                if (!poq.etrePris(this)) {
+                if (poq.etrePris(this)) {
                     if (this.poquemontDresse == null) {
                         this.setPoquemontDresse(poq);
                         return true;
@@ -245,9 +245,9 @@ public class Dresseur {
      */
     public boolean deposerPoquemont() {
         if (this.poquemontDresse != null) {
-            if (this.pv == 5) {
+            if (!this.etreBlesse()) {
                 if (this.poquemontDresse.etreDepose()) {
-                    poquemontDresse = null;
+                    this.poquemontDresse = null;
                     return true;
                 }
             }
@@ -305,7 +305,7 @@ public class Dresseur {
      * @return true si le dresseur n'a plus de pv <br/> False si le dresseur a encore des PV
      */
     public boolean etreBlesse() {
-        return pv <= 0;
+        return pv == 0;
     }
 
     /**
