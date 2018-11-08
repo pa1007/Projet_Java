@@ -286,6 +286,94 @@ public class TestDresseur {
         assertEquals("Le dresseur devrai avoir 1 d'attaque", 1, d.getDegats());
     }
 
+    public void test_getDegats_avecPoq() {
+        Arene     a = new Arene();
+        Dresseur  d = new Dresseur("t", 5, 5, a);
+        Poquemont p = new Poquemont(a);
+        d.prendrePoquemont(p);
+        assertEquals("Le dresseur devrai avoir 1 d'attaque", p.getDegats(), d.getDegats());
+    }
+
+    public void test_getPortee_sansPoq() {
+        Arene    a = new Arene();
+        Dresseur d = new Dresseur("t", 5, 5, a);
+        assertEquals("Le dresseur devrai avoir 1 d'attaque", 1, d.getPortee());
+    }
+
+    public void test_getPortee_avecPoq() {
+        Arene     a = new Arene();
+        Dresseur  d = new Dresseur("t", 5, 5, a);
+        Poquemont p = new Poquemont(a);
+        d.prendrePoquemont(p);
+        assertEquals("Le dresseur devrai avoir 1 d'attaque", p.getPortee(), d.getPortee());
+    }
+
+    public void test_getDistance_Normal() {
+        Arene    a  = new Arene();
+        Dresseur d  = new Dresseur("t", 5, 5, a);
+        Dresseur d2 = new Dresseur(a);
+        assertEquals("La distance est mal calculée", 10, d.getDistance(d2));
+    }
+
+    public void test_getDistance_dresseur2Null() {
+        Arene    a  = new Arene();
+        Dresseur d  = new Dresseur("t", 5, 5, a);
+        Dresseur d2 = null;
+        assertEquals("la dstance devrai etre négatif car 2eme dresseur null", -1, d.getDistance(d2));
+    }
+
+    public void test_getDistance_pasMemeArene() {
+        Arene    a  = new Arene();
+        Dresseur d  = new Dresseur("t", 5, 5, a);
+        Dresseur d2 = new Dresseur(new Arene());
+        assertEquals("la dstance devrai etre négatif car 2eme dresseur pas dans la meme arene", -1, d.getDistance(d2));
+    }
+
+    public void test_getDistance_memeDresseur() {
+        Arene    a = new Arene();
+        Dresseur d = new Dresseur("t", 5, 5, a);
+        assertEquals("la dstance devrai etre null car même dresseur", 0, d.getDistance(d));
+    }
+
+    public void tesst_getDistance_memePos() {
+        Arene    a  = new Arene();
+        Dresseur d  = new Dresseur(a);
+        Dresseur d2 = new Dresseur(a);
+        assertEquals("la dstance devrai etre null car même pos", 0, d.getDistance(d2));
+    }
+
+    public void test_attaquer_null() {
+        Arene    a  = new Arene();
+        Dresseur d  = new Dresseur(a);
+        Dresseur d2 = null;
+        assertEquals("Pas d'attaque", false, d.attaquer(d2));
+    }
+
+    public void test_attaquer_areneDif() {
+        Dresseur d  = new Dresseur(new Arene());
+        Dresseur d2 = new Dresseur(new Arene());
+        assertEquals("Pas d'attaque", false, d.attaquer(d2));
+    }
+
+    public void test_attaquer_normal() {
+        Arene    a  = new Arene();
+        Dresseur d  = new Dresseur(a);
+        Dresseur d2 = new Dresseur("t", 1, 0, a);
+        assertEquals("attaque realiser", true, d.attaquer(d2));
+        assertEquals("Pv pas enlever", 4, d2.getPv());
+    }
+
+    public void test_attaquer_porteeDif() {
+        Arene     a  = new Arene();
+        Dresseur  d  = new Dresseur(a);
+        Poquemont p  = new Poquemont(a);
+        Dresseur  d2 = new Dresseur("t", 2, 0, a);
+        assertEquals("attaque realiser", true, d.attaquer(d2));
+        assertEquals("Pas d'attaque", false, d2.attaquer(d));
+        assertEquals("Pv pas enlever", 4, d2.getPv());
+        assertEquals("Portee de 2 pour dresseur avec poq", 2, d.getPortee());
+    }
+
     /**
      * methode de lancement des tests
      *

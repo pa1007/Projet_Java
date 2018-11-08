@@ -260,10 +260,11 @@ public class Dresseur {
      *
      * @param dresseur le dresseur avec qui ont veut la distance entre notre dresseur et lui
      *
-     * @return La distance, qui est un nombre entier, entre le dresseur en parametre et <code>this</code>
+     * @return La distance, qui est un nombre entier, entre le dresseur en parametre et <code>this</code> ou retourne <strong>-1</strong> si le dresseur est null ou pas dans la même arene
      */
     public int getDistance(Dresseur dresseur) {
-        return Math.abs(dresseur.posX - this.posX) + Math.abs(dresseur.posY - this.posY);
+        return (dresseur != null && dresseur.arene == this.arene) ? Math.abs(dresseur.posX - this.posX) + Math.abs(
+                dresseur.posY - this.posY) : -1;
     }
 
     /**
@@ -283,8 +284,17 @@ public class Dresseur {
      * @return true si le dresseur a été toucher et lui fera {@link Dresseur#getDegats()} <br/> False si le dresseur est hors de {@link Dresseur#getPortee()} ou que le dressur est bléssé
      */
     public boolean attaquer(Dresseur dresseur) {
-        if (dresseur.arene == this.arene && this.getDistance(dresseur) <= this.getPortee() && this.pv == 5) {
-            dresseur.setPv(dresseur.pv - this.getDegats());
+        if (dresseur != null &&
+            dresseur.arene == this.arene
+            && this.getDistance(dresseur) != -1
+            && this.getDistance(dresseur) <= this.getPortee()
+            && !etreBlesse() && !dresseur.etreBlesse()) {
+            if (dresseur.pv - this.getDegats() >= 0) {
+                dresseur.setPv(dresseur.pv - this.getDegats());
+            }
+            else {
+                dresseur.pv = 0;
+            }
             return true;
         }
         return false;
