@@ -336,7 +336,7 @@ public class Dresseur {
      * @return un string qui a pour partern <code>dresseur(nom-dresseur :pv )</code>de base et si il un poquemont <code>-poquemont(d:dégats,p:portée)</code>
      */
     public String toString() {
-        return "dresseur(" + this.nom + " :" + this.pv + ")" + (
+        return "dresseur(" + this.nom + ":" + this.pv + ")" + (
                 (this.poquemontDresse != null)
                         ? this.poquemontDresse.toString()
                         : ""

@@ -182,7 +182,6 @@ public class Poquemont {
      */
     public boolean etrePris(Dresseur dresseur) {
         if (dresseur != null) {
-            System.out.println(porteur);
             if (porteur == null) {
                 if (dresseur.getArene() == this.arene) {
                     if (dresseur.getPosX() == this.posX && dresseur.getPosY() == this.posY) {
