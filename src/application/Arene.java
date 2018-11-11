@@ -61,7 +61,8 @@ public class Arene {
     }
 
     /**
-     * Pour savoir si la case aux coorodonées donné est un mur ou non
+     * Pour savoir si la case aux coorodonées donné est un mur ou non <br>
+     * <img src="../img/TableauJeu.png" alt="">
      *
      * @param x un int qui donnera la coordonnée x
      * @param y un int qui donnera la coordonée y
