@@ -147,6 +147,84 @@ public class TestPoquemont {
         assertEquals("poquemont pas pris", false, res);
     }
 
+    /**
+     * Test de etreDepose avec un fonctionnement normal
+     */
+    public void test_etreDepose_normal() {
+        Arene     a = new Arene();
+        Poquemont p = new Poquemont(a);
+        Dresseur  d = new Dresseur("t", 5, 5, a);
+        d.prendrePoquemont(p);
+        assertEquals("Le poquemont dois etre déposer", true, p.etreDepose());
+        assertEquals("Le poquemont doit etre libre", null, p.getPorteur());
+    }
+
+    /**
+     * Test de etreDepose sans avoir de dresseur
+     */
+    public void test_etreDepose_sansDres() {
+        Arene     a = new Arene();
+        Poquemont p = new Poquemont(a);
+        assertEquals("Le poquemont dois etre déposer", false, p.etreDepose());
+        assertEquals("Le poquemont doit etre libre", null, p.getPorteur());
+    }
+
+    /**
+     * On regarde si la position du poquemont change quand il est deposer
+     */
+    public void test_etreDepose_memePos() {
+        Arene     a = new Arene();
+        Poquemont p = new Poquemont(a);
+        Dresseur  d = new Dresseur("t", 5, 5, a);
+        d.prendrePoquemont(p);
+        d.seDeplacer(1, 0);
+        assertEquals("Le poquemont dois etre déposer", true, p.etreDepose());
+        assertEquals("Le poquemont doit etre libre", null, p.getPorteur());
+        assertEquals("Pos differente sur axe des X", d.getPosX(), p.getPosX());
+        assertEquals("Pos differente sur axe des Y", d.getPosY(), p.getPosY());
+    }
+
+    /**
+     * Test de changerPosition qui suit le dresseur grâce à la methode {@link Dresseur#seDeplacer(int, int)}
+     */
+    public void test_changerPosition_suiviDresseur() {
+        Arene     a = new Arene();
+        Poquemont p = new Poquemont(a);
+        Dresseur  d = new Dresseur("t", 5, 5, a);
+        d.prendrePoquemont(p);
+        d.seDeplacer(1, 0);
+        assertEquals("Pos differente sur axe des X", d.getPosX(), p.getPosX());
+        assertEquals("Pos differente sur axe des Y", d.getPosY(), p.getPosY());
+    }
+
+    /**
+     * Test changer position du poquemont en forcant la position du dresseur avec un setter ({@link Dresseur#setPosX(int)} et {@link Dresseur#setPosY(int)})
+     * car dans {@link Dresseur#seDeplacer(int, int)} il y a le changement de position qui s'aupère
+     */
+    public void test_changerPosition_avecDresseur() {
+        Arene     a = new Arene();
+        Poquemont p = new Poquemont(a);
+        Dresseur  d = new Dresseur("t", 5, 5, a);
+        d.prendrePoquemont(p);
+        d.setPosX(6);
+        d.setPosY(6);
+        p.changerPosition();
+        assertEquals("Pos differente sur axe des X", d.getPosX(), p.getPosX());
+        assertEquals("Pos differente sur axe des Y", d.getPosY(), p.getPosY());
+    }
+
+    /**
+     * Test changerPosition sans dresseur <br> Le dresseur et le poquemont ne sont pas relier donc le poq ne bouge pas
+     */
+    public void test_changerPosition_sansDresseur() {
+        Arene     a = new Arene();
+        Poquemont p = new Poquemont(a);
+        Dresseur  d = new Dresseur("t", 5, 5, a);
+        d.seDeplacer(1, 0);
+        p.changerPosition();
+        assertEquals("Ne bouge pas sur axe des X", 5, p.getPosX());
+        assertEquals("Ne bouge pas sur axe des Y", 5, p.getPosY());
+    }
 
 
     /**
